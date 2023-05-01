@@ -1,4 +1,8 @@
+#import sys
+#sys.path.append("data")
+
 from flask import Flask, jsonify, render_template
+from static.data.get_youtube import run_all
 import pandas as pd
 import numpy as np
 
@@ -16,6 +20,12 @@ def calculate_percentage(val, total):
     """Calculate the percentage of a value over a total"""
     percent = np.round((np.divide(val, total) * 100), 2)
     return percent 
+
+@app.route('/get_youtube_data')
+def get_youtube_data():
+    run_all()
+    print("Youtube data has been extracted and process")
+    return("nothing")
 
 def data_creation(data, percent, class_labels, group=None):
     for index, item in enumerate(percent):
@@ -62,10 +72,3 @@ def get_barchart_data():
 if __name__ == '__main__':
     app.run(debug=True)
 
-
-
-
-
-
-
-mon_percent = calculate

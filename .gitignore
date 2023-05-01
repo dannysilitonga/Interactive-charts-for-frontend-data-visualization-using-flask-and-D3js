@@ -132,3 +132,7 @@ service-key.json
 .DS_Store
 
 .DS_Store
+
+*_CA_videos
+*_GB_videos
+static/data/output
