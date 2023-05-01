@@ -1,6 +1,6 @@
-const urls = [pieChartDataUrl, barChartUrl];
+const urls = [pieChartDataUrl, barChartDataUrl];
 
-Promise.all(urls.map(url => d3BarChart.json(url))).then(run); 
+Promise.all(urls.map(url => d3.json(url))).then(run); 
 
 function run(dataset) {
     d3PieChart(dataset[0], dataset[1]);
