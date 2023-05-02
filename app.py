@@ -27,6 +27,11 @@ def get_youtube_data():
     print("Youtube data has been extracted and process")
     return("nothing")
 
+@app.route('/get_piechart_youtube')
+def get_piechart_data_youtube():
+
+
+
 def data_creation(data, percent, class_labels, group=None):
     for index, item in enumerate(percent):
         data_instance = {}

@@ -6,14 +6,18 @@ import googleapiclient.discovery
 import os
 import pandas as pd
 import re
-from langdetect import detect 
 import demoji 
-from textblob.blob import TextBlob
 import shutil
+from langdetect import detect 
+from textblob.blob import TextBlob
+from os import listdir
+from os.path import isfile, join
 
 output_dir = "static/data/output/"
 output_dir_processed = "static/data/output/processed/"
 output_dir_sentiments = "static/data/output/sentiments/"
+output_dir_video_prior = "static/data/output/prior_video_processed/"
+output_dir_sentiment_prior = "static/data/output/prior_sentiment_processed/"
 
 # Any characters to exclude, generally these are things that become problematic in CSV files
 unsafe_characters = ['\n', '"']
@@ -249,20 +253,31 @@ def analysis_based_on_polarity(df, analysis):
   return df
 
 def save_sentiment_data(country_data):
-    print(f"Writing US sentiment data to file...")
+  print(f"Writing US sentiment data to file...")
 
-    if not os.path.exists(output_dir_sentiments):
-        os.makedirs(output_dir_sentiments)
+  if not os.path.exists(output_dir_sentiments):
+    os.makedirs(output_dir_sentiments)
 
-    country_data.to_csv(output_dir_sentiments+time.strftime('%y.%d.%m')+'_US_sentiments.csv', encoding='utf-8', 
-      sep='\t') 
-    
+  country_data.to_csv(output_dir_sentiments+time.strftime('%y.%d.%m')+'_US_sentiments.csv', encoding='utf-8', 
+    sep='\t') 
+        
 ## Data Cleanup 
+
+def cleanup_folder():
+  only_video_file = [f for f in listdir(output_dir_processed) if isfile(join(output_dir_processed, f))]
+  only_sentiment_file = [f for f in listdir(output_dir_sentiments) if isfile(join(output_dir_sentiments, f))]
+  if only_video_file: 
+    shutil.move(output_dir_processed+only_video_file[0], output_dir_video_prior+only_video_file[0]) 
+  if only_sentiment_file:
+    shutil.move(output_dir_sentiments+only_sentiment_file[0], output_dir_sentiment_prior+only_video_file[0]) 
+
 ### move_process_file
 def move_process_file():
   # path = get_data_file()[0]
   file_name = get_data_file()
   shutil.move(output_dir+get_data_file()[0], output_dir_processed+get_data_file()[0]) 
+
+  
 
 ## Get Transcript
 #!pip install youtube_transcript_api -q
@@ -271,15 +286,18 @@ def move_process_file():
 
 def run_all():
   if not os.path.exists(output_dir):
-          os.makedirs("static/data/output/")
+    os.makedirs("static/data/output/")
   if not os.path.exists(output_dir_processed):
-          os.makedirs("static/data/output/")
+    os.makedirs("static/data/output/")
   if not os.path.exists(output_dir_sentiments):
-          os.makedirs("static/data/output/sentiments/")
+    os.makedirs("static/data/output/sentiments/")
+  if not os.path.exists(output_dir_video_prior):
+    os.makedirs("static/data/output/prior_video_processed/")
+  if not os.path.exists(output_dir_sentiment_prior):
+    os.makedirs("static/data/output/prior_sentiment_processed/")
+
+  cleanup_folder()   
   
-
-
-
   # Used to identify columns, currently hardcoded order
   header = ["video_id"] + snippet_features + ["trending_date", "tages", "view_count", "likes", "dislikes",
                                             "comment_count", "thumbnail_link", "comments_disabled",
