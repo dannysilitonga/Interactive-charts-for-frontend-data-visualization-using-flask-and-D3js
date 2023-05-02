@@ -136,3 +136,5 @@ service-key.json
 *_CA_videos
 *_GB_videos
 static/data/output
+
+static/data/api_key.txt
