@@ -138,3 +138,4 @@ service-key.json
 static/data/output
 
 static/data/api_key.txt
+static/data/api_key_copy.txt
