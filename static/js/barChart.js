@@ -7,7 +7,7 @@ barPadding = 7,
 graph_misc = {ylabel:4, xlabelH :4, title:9};
 
 // Setting the default group
-const group = "All";
+const group = "Positive";
 
 // Function to get the percentage values  for a specific selected group from the whole dataset.
 function get_percentage(group, datasetBarChart){
@@ -43,7 +43,7 @@ function d3BarChart(datasetBarChart){
         .attr('y', graph_misc.title)
         .attr('class','title')				
         .attr('text-anchor', 'middle')
-        .text('Tenure group for churned customers');
+        .text('Comment by Video');
 
     const visualization = bar.append('g')
         .attr("transform", "translate(" + margin.left + "," + (margin.top + graph_misc.ylabel) + ")");

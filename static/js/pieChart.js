@@ -62,7 +62,7 @@ function d3PieChart(dataset, datasetBarChart){
     visualization.append("svg:text") //Append the title of chart in the middle of the pie chart
         .attr("dy", ".20em")
         .attr("text-anchor", "middle")
-        .text("churned customers")
+        .text("comment sentiments")
         .attr("class","title");		    
 
     // Function to update barchart when a piechart slice is clicked
